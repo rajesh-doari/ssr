@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import ProductCard from "../components/ProductCard";
+import Link from "next/link";
 
 export default function CSRPage() {
-  console.log('CSR Page')
+  console.log("CSR Page");
 
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<any[]>([]);
 
   useEffect(() => {
     fetch("/api/products")
@@ -14,22 +16,27 @@ export default function CSRPage() {
   }, []);
 
   return (
-    <div style={{ padding: 40 }}>
-      <h1>CSR Products (Client Fetch)</h1>
+    <div className="p-10">
+      <h1 className="text-3xl font-bold text-center mb-8">
+        CSR Products (Client Fetch)
+      </h1>
 
       {products.length === 0 ? (
-        <p>Loading...</p>
+        <p className="text-center text-gray-500 text-lg">Loading...</p>
       ) : (
-        <ul>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {products.map((p: any) => (
-            <li key={p.id}>
-              {p.title} — ${p.price}
-            </li>
+            <ProductCard key={p.id} product={p} />
           ))}
-        </ul>
+        </div>
       )}
 
-      <a href="/">Back</a>
+      <Link
+        href="/"
+        className="block text-center text-blue-600 mt-10 underline"
+      >
+        Back
+      </Link>
     </div>
   );
 }
